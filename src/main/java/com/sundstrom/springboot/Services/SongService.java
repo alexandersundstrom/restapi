@@ -36,11 +36,6 @@ public class SongService {
     }
 
     public void deleteSong(Integer id) {
-        for (Song song: songs) {
-            if (song.getId().equals(id)) {
-                songs.remove(songs.indexOf(song));
-                break;
-            }
-        }
+        songs.removeIf(song -> song.getId().equals(id));
     }
 }
