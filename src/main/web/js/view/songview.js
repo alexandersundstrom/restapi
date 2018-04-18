@@ -1,23 +1,12 @@
-function getAllSongs() {
-    $.ajax({
-        url: 'http://localhost:8080/songs/',
-        data: null,
-        success: function (response) {
-          populateTable(response)
-        },
-        error: function (error) {
-        },
-        dataType: 'json',
-        type: 'GET'
-    });
+
+
+function getIndividualSong(response) {
+    console.log(response);
 }
 
 function clicked(event) {
-    console.info(event[0].id);
+    getSong(event[0].id, getIndividualSong)
 }
-
-getAllSongs();
-
 
 function populateTable(response) {
     var html = '<div class="panel panel-default">\n' +
@@ -48,3 +37,5 @@ function populateTable(response) {
 
     $("#songsTable").html(html);
 }
+
+getAllSongs(populateTable);
