@@ -15,6 +15,10 @@ public class Song {
         this.chords = chords;
     }
 
+    public Song() {
+
+    }
+
     public Integer getId() {
         return id;
     }
