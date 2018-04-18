@@ -1,8 +1,13 @@
 package com.sundstrom.springboot.Model;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "song")
 public class Song {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String title;
     private String lyrics;

@@ -30,7 +30,7 @@ public class SongController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/songs/{id}")
     public void updateSong(@RequestBody Song song, @PathVariable Integer id) {
-        songService.updateSong(id, song);
+        songService.updateSong(song);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/songs/{id}")
