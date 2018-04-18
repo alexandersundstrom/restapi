@@ -26,4 +26,21 @@ public class SongService {
     public void addSong(Song song) {
         songs.add(song);
     }
+
+    public void updateSong(Integer id, Song updateSong) {
+        for (Song song: songs) {
+            if (song.getId().equals(id)) {
+                songs.set(songs.indexOf(song), updateSong);
+            }
+        }
+    }
+
+    public void deleteSong(Integer id) {
+        for (Song song: songs) {
+            if (song.getId().equals(id)) {
+                songs.remove(songs.indexOf(song));
+                break;
+            }
+        }
+    }
 }
