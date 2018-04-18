@@ -13,13 +13,16 @@ function getAllSongs(callback) {
 
 function getSong(id, callback) {
     $.ajax({
-        url: 'http://localhost:8080/songs/' +id,
+        url: 'http://localhost:8080/songs/' + id,
         success: function (response) {
             callback(response)
         },
         error: function (error) {
         },
-        dataType: 'json',
-        type: 'GET'
+        dataType: 'json'
     });
+}
+
+function updateSong(song, callback) {
+
 }
