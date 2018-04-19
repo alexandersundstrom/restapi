@@ -8,7 +8,7 @@ function getSongForm(song) {
         lyrics = song.lyrics;
         chords = song.chords;
     }
-    var deleteButton =  song && song.id ? '<button id="delete" class="btn btn-warning">Delete</button>': '';
+    var deleteButton =  song && song.id ? '<button id="delete" class="btn btn-info">Delete</button>': '';
 
     $("#editSong").show();
     var html = '<form>\n' +
@@ -24,7 +24,7 @@ function getSongForm(song) {
         '    <label for="chords">Chords</label>\n' +
         '    <textarea class="form-control" id="chords" placeholder="Chords">' + chords + '</textarea>\n' +
         '  </div>\n' +
-        '  <button id="submit" class="btn btn-primary">Update</button>\n'
+        '  <button id="submit" class="btn btn-primary">Save</button>\n'
         + deleteButton +
         '<button id="cancel" class="btn btn-default cancel-button">Cancel</button>\n' +
         '</form>';
