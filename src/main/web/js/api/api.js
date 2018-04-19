@@ -52,3 +52,15 @@ function createSong(song, callback) {
         type: 'POST'
     });
 }
+
+function deleteSong(id, callback) {
+    $.ajax({
+        url: 'http://localhost:8080/songs/' + id,
+        success: function (response) {
+            callback(response)
+        },
+        error: function (error) {
+        },
+        type: 'DELETE'
+    });
+}

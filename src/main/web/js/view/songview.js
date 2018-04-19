@@ -8,6 +8,7 @@ function getSongForm(song) {
         lyrics = song.lyrics;
         chords = song.chords;
     }
+    var deleteButton =  song && song.id ? '<button id="delete" class="btn btn-warning">Delete</button>': '';
 
     $("#editSong").show();
     var html = '<form>\n' +
@@ -23,8 +24,9 @@ function getSongForm(song) {
         '    <label for="chords">Chords</label>\n' +
         '    <textarea class="form-control" id="chords" placeholder="Chords">' + chords + '</textarea>\n' +
         '  </div>\n' +
-        '  <button id="submit" class="btn btn-primary">Update</button>\n' +
-        '<button id="cancel" class="btn btn-default">Cancel</button>\n' +
+        '  <button id="submit" class="btn btn-primary">Update</button>\n'
+        + deleteButton +
+        '<button id="cancel" class="btn btn-default cancel-button">Cancel</button>\n' +
         '</form>';
 
     $("#editSong").html(html);
@@ -70,7 +72,7 @@ function generateSongTable(response) {
     html += '</table></div></div></div>';
 
     html += '<div class="row"><div class="col-md-12 col-xs-12">' +
-        '<button id="createSong" onclick="clickCreateSong($(this))" class="btn btn-primary">Add a new song</button>' +
+        '<button id="createSong" onclick="editIndividualSong()" class="btn btn-primary">Add a new song</button>' +
         '</div></div>'
 
     $("#songsTable").html(html);
