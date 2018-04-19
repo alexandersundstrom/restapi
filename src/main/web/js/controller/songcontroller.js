@@ -24,5 +24,16 @@ function getSong(id, callback) {
 }
 
 function updateSong(song, callback) {
-
+    $.ajax({
+        url: 'http://localhost:8080/songs/' + song.id,
+        data: JSON.stringify(song),
+        success: function (response) {
+            callback(response)
+        },
+        error: function (error) {
+        },
+        type: 'json',
+        contentType: 'application/json',
+        type: 'PUT'
+    });
 }
