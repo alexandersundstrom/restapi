@@ -1,3 +1,9 @@
 .jumbotron {
     background-color: aliceblue;
 }
+
+tr:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+    transition: background-color 500ms;
+}

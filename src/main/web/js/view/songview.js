@@ -1,29 +1,82 @@
-function getIndividualSong(song) {
-    editSong(song)
+var lyricsEditor;
+var chordsEditor;
+
+function editIndividualSong(song) {
+    getSongForm(song);
+    $("#cancel").click(function (event) {
+        event.preventDefault();
+        $("#songsTable").show();
+        $("#editSong").hide();
+    });
+
+    $("#submit").click(function (event) {
+        event.preventDefault();
+        var editedSong = {
+            id: song.id,
+            title: $("#title").val(),
+            lyrics: lyricsEditor.getData(),
+            chords: chordsEditor.getData()
+        };
+        updateSong(editedSong, function () {
+            getAllSongs(generateSongTable)
+        })
+        $("#songsTable").show();
+        $("#editSong").hide();
+    })
+
 }
 
-function clicked(event) {
-    getSong(event[0].id, getIndividualSong);
+function clickEditSong(event) {
+    getSong(event[0].id, editIndividualSong);
 }
 
-function editSong(song) {
-    var lyricsEditor;
-    var chordsEditor;
+function clickCreateSong(event) {
+    getSongForm();
+    $("#cancel").click(function (event) {
+        event.preventDefault();
+        $("#songsTable").show();
+        $("#editSong").hide();
+    });
+
+    $("#submit").click(function (event) {
+        event.preventDefault();
+        var newSong = {
+            title: $("#title").val(),
+            lyrics: lyricsEditor.getData(),
+            chords: chordsEditor.getData()
+        };
+        createSong(newSong, function () {
+            getAllSongs(generateSongTable)
+        });
+        $("#songsTable").show();
+        $("#editSong").hide();
+    })
+}
+
+function getSongForm(song) {
+    var title = '', lyrics = '', chords = '';
+    if (song) {
+        title = song.title;
+        lyrics = song.lyrics;
+        chords = song.chords;
+    }
+
     $("#editSong").show();
     var html = '<form>\n' +
         '  <div class="form-group">\n' +
         '    <label for="title">Title</label>\n' +
-        '    <input type="text" value="' + song.title + '"class="form-control" id="title" placeholder="Title">\n' +
+        '    <input type="text" value="' + title + '"class="form-control" id="title" placeholder="Title">\n' +
         '  </div>\n' +
         '  <div class="form-group">\n' +
         '    <label for="lyrics">Lyrics</label>\n' +
-        '    <textarea class="form-control" id="lyrics" placeholder="Lyrics">' + song.lyrics + '</textarea>\n' +
+        '    <textarea class="form-control" id="lyrics" placeholder="Lyrics">' + lyrics + '</textarea>\n' +
         '  </div>\n' +
         '  <div class="form-group">\n' +
         '    <label for="chords">Chords</label>\n' +
-        '    <textarea class="form-control" id="chords" placeholder="Chords">' + song.chords + '</textarea>\n' +
+        '    <textarea class="form-control" id="chords" placeholder="Chords">' + chords + '</textarea>\n' +
         '  </div>\n' +
-        '  <button id="submit" class="btn btn-default">Update</button>\n' +
+        '  <button id="submit" class="btn btn-primary">Update</button>\n' +
+        '<button id="cancel" class="btn btn-default">Cancel</button>\n' +
         '</form>';
 
     $("#editSong").html(html);
@@ -31,30 +84,17 @@ function editSong(song) {
 
     ClassicEditor
         .create(document.querySelector('#lyrics'))
-        .then( editor => {
+        .then(editor => {
         lyricsEditor = editor;
-} );
+        });
     ClassicEditor
         .create(document.querySelector('#chords'))
-        .then( editor => {
+        .then(editor => {
         chordsEditor = editor;
-} );
-
-    $("#submit").click(function (event) {
-        event.preventDefault();
-        var editedSong = {
-            id: song.id,
-            title: $("#title").val(),
-            lyrics:  lyricsEditor.getData(),
-            chords:  chordsEditor.getData()
-        };
-        updateSong(editedSong, function() {getAllSongs(populateTable)})
-        $("#songsTable").show();
-        $("#editSong").hide();
-    })
+        });
 }
 
-function populateTable(response) {
+function generateSongTable(response) {
     var html = '<div class="panel panel-default">\n' +
         '  <div class="panel-body">\n' +
         '    <h3>Songs</h3>\n' +
@@ -69,7 +109,7 @@ function populateTable(response) {
         '  </tr>';
 
     response.forEach(function (song) {
-        html += '<tr id="' + song.id + '" onclick="clicked($(this))">\n' +
+        html += '<tr id="' + song.id + '" onclick="clickEditSong($(this))">\n' +
             '    <td>' + song.id + '</td>\n' +
             '    <td>' + song.title + '</td> \n' +
             '    <td>' + song.lyrics + '</td>\n' +
@@ -81,7 +121,9 @@ function populateTable(response) {
 
     html += '</table></div></div></div>';
 
+    html += '<div class="row"><div class="col-md-12 col-xs-12">' +
+        '<button id="createSong" onclick="clickCreateSong($(this))" class="btn btn-primary">Add a new song</button>' +
+        '</div></div>'
+
     $("#songsTable").html(html);
 }
-
-getAllSongs(populateTable);

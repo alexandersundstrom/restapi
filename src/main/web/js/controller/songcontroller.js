@@ -37,3 +37,18 @@ function updateSong(song, callback) {
         type: 'PUT'
     });
 }
+
+function createSong(song, callback) {
+    $.ajax({
+        url: 'http://localhost:8080/songs/',
+        data: JSON.stringify(song),
+        success: function (response) {
+            callback(response)
+        },
+        error: function (error) {
+        },
+        type: 'json',
+        contentType: 'application/json',
+        type: 'POST'
+    });
+}
