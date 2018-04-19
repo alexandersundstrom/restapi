@@ -1,54 +1,51 @@
-function getAllSongs(callback) {
-    $.ajax({
-        url: 'http://localhost:8080/songs/',
-        success: function (response) {
-            callback(response)
-        },
-        error: function (error) {
-        },
-        dataType: 'json',
-        type: 'GET'
+function editIndividualSong(song) {
+    getSongForm(song);
+    $("#cancel").click(function (event) {
+        event.preventDefault();
+        $("#songsTable").show();
+        $("#editSong").hide();
     });
+
+    $("#submit").click(function (event) {
+        event.preventDefault();
+        var editedSong = {
+            id: song.id,
+            title: $("#title").val(),
+            lyrics: lyricsEditor.getData(),
+            chords: chordsEditor.getData()
+        };
+        updateSong(editedSong, function () {
+            getAllSongs(generateSongTable)
+        })
+        $("#songsTable").show();
+        $("#editSong").hide();
+    })
+
 }
 
-function getSong(id, callback) {
-    $.ajax({
-        url: 'http://localhost:8080/songs/' + id,
-        success: function (response) {
-            callback(response)
-        },
-        error: function (error) {
-        },
-        dataType: 'json'
+function clickCreateSong(event) {
+    getSongForm();
+    $("#cancel").click(function (event) {
+        event.preventDefault();
+        $("#songsTable").show();
+        $("#editSong").hide();
     });
+
+    $("#submit").click(function (event) {
+        event.preventDefault();
+        var newSong = {
+            title: $("#title").val(),
+            lyrics: lyricsEditor.getData(),
+            chords: chordsEditor.getData()
+        };
+        createSong(newSong, function () {
+            getAllSongs(generateSongTable)
+        });
+        $("#songsTable").show();
+        $("#editSong").hide();
+    })
 }
 
-function updateSong(song, callback) {
-    $.ajax({
-        url: 'http://localhost:8080/songs/' + song.id,
-        data: JSON.stringify(song),
-        success: function (response) {
-            callback(response)
-        },
-        error: function (error) {
-        },
-        type: 'json',
-        contentType: 'application/json',
-        type: 'PUT'
-    });
-}
-
-function createSong(song, callback) {
-    $.ajax({
-        url: 'http://localhost:8080/songs/',
-        data: JSON.stringify(song),
-        success: function (response) {
-            callback(response)
-        },
-        error: function (error) {
-        },
-        type: 'json',
-        contentType: 'application/json',
-        type: 'POST'
-    });
+function clickEditSong(event) {
+    getSong(event[0].id, editIndividualSong);
 }
